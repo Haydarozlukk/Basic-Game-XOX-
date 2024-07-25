@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XOX Game</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            max-width: 300px;
+            margin: auto;
+            border: 2px solid #333;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+            cursor: pointer;
+        }
+        .winner-message {
+            margin-top: 20px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        .reset-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function makeMove(cellIndex) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/move';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'move';
+            input.value = cellIndex;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <h1 class="text-center my-4">XOX Oyunu</h1>
+        <div class="board">
+            {% for cell in board %}
+                <div class="cell" onclick="makeMove({{ loop.index0 }})">{{ cell }}</div>
+            {% endfor %}
+        </div>
+        {% if game_over %}
+        <div class="winner-message">
+            {% if winner %}
+                Kazanan: {{ winner }}
+            {% else %}
+                Oyun Berabere!
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="reset-button">
+            <a href="{{ url_for('reset') }}" class="btn btn-primary">Reset</a>
+        </div>
+    </div>
+</body>
+</html>
