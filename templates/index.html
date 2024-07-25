@@ -56,7 +56,7 @@
         <h1 class="text-center my-4">XOX Oyunu</h1>
         <div class="board">
             {% for cell in board %}
-                <div class="cell" onclick="makeMove({{ loop.index0 }})">{{ cell }}</div>
+                <div class="cell" onclick="makeMove('{{ loop.index0 }}')">{{ cell }}</div>
             {% endfor %}
         </div>
         {% if game_over %}
